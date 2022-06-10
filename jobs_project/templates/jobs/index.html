@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <table border="1">
+   <caption>Таблица сотрудников</caption>
+   <tr>
+       <th>Имя</th>
+       <th>Фамилия</th>
+       <th>Отчество</th>
+       <th>Пол</th>
+       <th>Возраст</th>
+       <th>Должность</th>
+       <th>Категория</th>
+   </tr>
+      {% for employee in employee_list %}
+        <tr>
+            <td>{{ employee.first_name }}</td>
+            <td>{{ employee.last_name }}</td>
+            <td>{{ employee.patronymic }}</td>
+            <td>{{ employee.sex }}</td>
+            <td>{{ employee.age }}</td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.category }}</td>
+        </tr>
+      {% endfor %}
+  </table>
+</body>
+</html>
