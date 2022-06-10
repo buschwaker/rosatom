@@ -26,8 +26,8 @@ SECRET_KEY = '!7+ze31+*17+788g0&yuxv-fs$z@3dxj9t6r16hl(jjj50+68#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['rosatomtask.herokuapp.com']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['rosatomtask.herokuapp.com']
 
 
 # Application definition
@@ -84,27 +84,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'mydb',
-#         'USER': 'admin',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '5434',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd3pp52cn42bcok',
-        'USER': 'gqcfsghibfygyr',
-        'PASSWORD': '82a70a8cf072ad77cb73bb5597ae3c03c22d3ee16ab572b65e926badc034c9a2',
-        'HOST': 'ec2-52-30-67-143.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
+        'NAME': 'mydb',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5434',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'd3pp52cn42bcok',
+#         'USER': 'gqcfsghibfygyr',
+#         'PASSWORD': '82a70a8cf072ad77cb73bb5597ae3c03c22d3ee16ab572b65e926badc034c9a2',
+#         'HOST': 'ec2-52-30-67-143.eu-west-1.compute.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -143,10 +143,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-# STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-django_heroku.settings(locals())
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+# django_heroku.settings(locals())
 
 
 EMPTY_VALUE_DISPLAY = '-пусто-'

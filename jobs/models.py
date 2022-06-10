@@ -1,5 +1,7 @@
+from datetime import datetime as dt
+
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import ValidationError
 
 
 class Position(models.Model):
@@ -56,12 +58,16 @@ class Employee(models.Model):
         verbose_name='Пол', choices=SEX_CHOICES,
         max_length=7, help_text='Выберите пол'
     )
-    age = models.IntegerField(
-        verbose_name='Возраст', help_text='Введите возраст',
-        validators=[
-          MaxValueValidator(150, 'Слишком большой возраст!'),
-          MinValueValidator(14, 'Слишком маленький возраст'), ]
+    dob = models.DateField(
+        verbose_name='Дата рождения',
+        help_text='Введите дату рождения',
     )
+    # age = models.IntegerField(
+    #     verbose_name='Возраст', help_text='Введите возраст',
+    #     validators=[
+    #       MaxValueValidator(150, 'Слишком большой возраст!'),
+    #       MinValueValidator(14, 'Слишком маленький возраст'), ]
+    # )
     position = models.ForeignKey(
         Position, on_delete=models.SET_NULL, related_name='employees',
         blank=True, null=True, verbose_name='Должность',
@@ -71,7 +77,19 @@ class Employee(models.Model):
     class Meta:
         verbose_name_plural = "Сотрудники"
         verbose_name = "Сотрудник"
+        unique_together = (("first_name", "last_name", "patronymic", "dob", ),)
         ordering = ['last_name', 'first_name', 'patronymic', ]
 
     def __str__(self):
         return self.first_name + self.last_name
+
+    @property
+    def age(self):
+        date_now = dt.now().date()
+        return int((date_now - self.dob).days / 365.25)
+
+    def clean_fields(self, exclude=None):
+        if self.age > 150:
+            raise ValidationError({'dob': ["Сотруднику слишком много лет!", ]})
+        elif self.age < 14:
+            raise ValidationError({'dob': ["Сотруднику слишком мало лет!", ]})
