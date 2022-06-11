@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     'jobs.apps.JobsConfig',
+    'core.apps.CoreConfig',
+    'users.apps.UsersConfig',
 ]
 
 
@@ -86,14 +88,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5434',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'mydb',
+#         'USER': 'admin',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5434',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -149,5 +158,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # STATIC_URL = '/static/'
 # django_heroku.settings(locals())
 
-
 EMPTY_VALUE_DISPLAY = '-пусто-'
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'jobs:index'

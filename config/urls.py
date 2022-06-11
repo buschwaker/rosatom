@@ -5,6 +5,8 @@ from django.conf.urls import include, url
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^jobs/', include('jobs.urls', namespace='jobs')),
+    url(r'^auth/', include('users.urls', namespace='users')),
+    url(r'^auth/', include('django.contrib.auth.urls'))
 ]
 
 

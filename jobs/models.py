@@ -83,13 +83,10 @@ class Employee(models.Model):
     def __str__(self):
         return self.first_name + self.last_name
 
-    @property
-    def age(self):
-        date_now = dt.now().date()
-        return int((date_now - self.dob).days / 365.25)
-
     def clean_fields(self, exclude=None):
-        if self.age > 150:
+        date_now = dt.now().date()
+        age = int((date_now - self.dob).days / 365.25)
+        if age > 150:
             raise ValidationError({'dob': ["Сотруднику слишком много лет!", ]})
-        elif self.age < 14:
+        elif age < 14:
             raise ValidationError({'dob': ["Сотруднику слишком мало лет!", ]})

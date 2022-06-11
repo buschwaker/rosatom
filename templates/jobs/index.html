@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load my_filters %}
 
 {% block content %}
     <a href="{% url 'jobs:employee_create' %}">Добавить сотрудника</a>
@@ -19,7 +20,11 @@
                 <td>{{ employee.last_name }}</td>
                 <td>{{ employee.patronymic }}</td>
                 <td>{{ employee.sex }}</td>
-                <td>{{ employee.dob }}</td>
+                <td>{{ employee.dob|to_age }}</td>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.category }}</td>
+                <td><a href="{% url 'jobs:employee_update' employee.employee_id %}">Изменить</a></td>
+                <td><a href="{% url 'jobs:employee_delete' employee.employee_id %}">Удалить</a></td>
             </tr>
           {% endfor %}
     </table>

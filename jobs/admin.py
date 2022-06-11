@@ -23,7 +23,6 @@ class EmployeeAdmin(admin.ModelAdmin):
         'first_name',
         'patronymic',
         'position',
-        'age'
     )
     search_fields = (
         'last_name',

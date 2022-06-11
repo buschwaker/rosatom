@@ -1,6 +1,9 @@
+from datetime import datetime as dt
+from datetime import date, timedelta
 from django import forms
 
 from .models import Position, Employee
+from .widgets import DateSelectorWidget
 
 
 class PositionForm(forms.ModelForm):
@@ -11,7 +14,13 @@ class PositionForm(forms.ModelForm):
 
 
 class EmployeeForm(forms.ModelForm):
+    dob = forms.DateField(
+        widget=DateSelectorWidget,
+        label='Дата рождения',
+        help_text='Введите дату рождения',
+        initial=date.today() - timedelta(days=365.25*45),
+    )
 
     class Meta:
         model = Employee
-        exclude = ['age', ]
+        fields = '__all__'

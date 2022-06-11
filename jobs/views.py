@@ -5,7 +5,7 @@ from .forms import PositionForm, EmployeeForm
 
 
 def index(request):
-    employee_list = Employee.objects.raw('SELECT "jobs_employee"."id", "jobs_employee"."first_name", "jobs_employee"."last_name", "jobs_employee"."patronymic", "jobs_employee"."sex", "jobs_employee"."dob", "jobs_employee"."position_id", "jobs_position"."id", "jobs_position"."name", "jobs_position"."category" FROM "jobs_employee" LEFT OUTER JOIN "jobs_position" ON ("jobs_employee"."position_id" = "jobs_position"."id") ORDER BY "jobs_employee"."last_name" ASC, "jobs_employee"."first_name" ASC, "jobs_employee"."patronymic" ASC')
+    employee_list = Employee.objects.raw('SELECT "jobs_employee"."id" as "employee_id", "jobs_employee"."first_name", "jobs_employee"."last_name", "jobs_employee"."patronymic", "jobs_employee"."sex", "jobs_employee"."dob", "jobs_employee"."position_id", "jobs_position"."id", "jobs_position"."name", "jobs_position"."category" FROM "jobs_employee" LEFT OUTER JOIN "jobs_position" ON ("jobs_employee"."position_id" = "jobs_position"."id") ORDER BY "jobs_employee"."last_name" ASC, "jobs_employee"."first_name" ASC, "jobs_employee"."patronymic" ASC')
     # employee_list = Employee.objects.select_related('position')
     form = EmployeeForm()
     # positions_list = Position.objects.all()
@@ -36,3 +36,9 @@ def employee_edit(request, employee_id):
         return redirect('jobs:index')
     context = {'form': form, 'is_edit': is_edit}
     return render(request, 'jobs/emp_create_update.html', context)
+
+
+def employee_delete(request, employee_id):
+    employee = get_object_or_404(Employee, id=employee_id)
+    employee.delete()
+    return redirect('jobs:index')
