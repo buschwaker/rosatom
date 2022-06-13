@@ -1,0 +1,30 @@
+{% load static %}
+{% with request.resolver_match.view_name as view_name %}
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <div class="container">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'jobs:index' %}active{% endif %}" href="{% url 'jobs:index' %}">Главная страница</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'jobs:position_create' %}active{% endif %}" href="{% url 'jobs:position_create' %}">Добавить должность</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'jobs:employee_create' %}active{% endif %}" href="{% url 'jobs:employee_create' %}">Добавить сотрудника</a>
+        </li>
+        <li>
+          <a class="nav-link {% if view_name  == 'users:sign-up' %}active{% endif %}" href="{% url 'users:sign-up' %}">Зарегистрировать пользователя</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        <li>
+          <p class="nav-link link-light">Пользователь: {{request.user.username}}</p>
+        <li>
+
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+{% endwith %}

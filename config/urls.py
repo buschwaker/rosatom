@@ -3,10 +3,10 @@ from django.conf import settings
 from django.conf.urls import include, url
 
 urlpatterns = [
+    url('', include('jobs.urls', namespace='jobs')),
     url(r'^admin/', admin.site.urls),
-    url(r'^jobs/', include('jobs.urls', namespace='jobs')),
     url(r'^auth/', include('users.urls', namespace='users')),
-    url(r'^auth/', include('django.contrib.auth.urls'))
+    url(r'^auth/', include('django.contrib.auth.urls')),
 ]
 
 

@@ -18,13 +18,26 @@
   </head>
   <body>
     <header>
-
+      {% include 'includes/header.html' %}
     </header>
     <main>
-      {% block content %}
-        Контент не подвезли :(
-      {% endblock %}
+      <div class="container">
+        {% block content %}
+
+
+        {% endblock %}
+      </div>
     </main>
 
+<script>
+  let activeModal = (id) => {
 
+  let modal = document.getElementById(id);
+  let delBut = document.getElementById(id+'delBut');
+  modal.classList.toggle("hide")
+  delBut.classList.toggle("hide")
+
+  }
+
+</script>
   </body>

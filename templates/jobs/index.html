@@ -2,30 +2,107 @@
 {% load my_filters %}
 
 {% block content %}
-    <a href="{% url 'jobs:employee_create' %}">Добавить сотрудника</a>
-    <table border="1">
-        <caption>Таблица сотрудников</caption>
-        <tr>
-           <th>Имя</th>
-           <th>Фамилия</th>
-           <th>Отчество</th>
-           <th>Пол</th>
-           <th>Возраст</th>
-           <th>Должность</th>
-           <th>Категория</th>
-        </tr>
-          {% for employee in employee_list %}
-            <tr>
-                <td>{{ employee.first_name }}</td>
-                <td>{{ employee.last_name }}</td>
-                <td>{{ employee.patronymic }}</td>
-                <td>{{ employee.sex }}</td>
-                <td>{{ employee.dob|to_age }}</td>
-                <td>{{ employee.name }}</td>
-                <td>{{ employee.category }}</td>
-                <td><a href="{% url 'jobs:employee_update' employee.employee_id %}">Изменить</a></td>
-                <td><a href="{% url 'jobs:employee_delete' employee.employee_id %}">Удалить</a></td>
-            </tr>
-          {% endfor %}
-    </table>
+<div class="container py-2">
+    <div class="row g-2">
+        <div class="col-4">
+          <form class="form-inline">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input class="form-control form-control-sm ml-3 w-75" type="search" name="q_employee" placeholder="Фамилия сотрудника"
+                aria-label="Search">
+
+          </form>
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <caption>Список сотрудников</caption>
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Отчество</th>
+                        <th scope="col">Пол</th>
+                        <th scope="col">Возраст</th>
+                        <th scope="col">Должность</th>
+                        <th scope="col">Категория</th>
+                        {% if request.user.is_staff %}
+                            <th class="border border-white" scope="col"></th>
+                            <th class="border border-white" scope="col"></th>
+                            <th class="border border-white" scope="col"></th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for employee in employee_list %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ employee.first_name }}</td>
+                        <td>{{ employee.last_name }}</td>
+                        <td>{{ employee.patronymic }}</td>
+                        <td>{{ employee.sex }}</td>
+                        <td>{{ employee.dob|to_age }}</td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.category }}</td>
+                        {% if request.user.is_staff %}
+                            <td class="border border-white"><a href="{% url 'jobs:employee_update' employee.employee_id %}">Изменить</a></td>
+                            <td class="border border-white"><a onClick="activeModal({{employee.employee_id}})" id="{{ employee.employee_id }}delBut">Удалить</a></td>
+                            <td class="hide border border-white table-danger" id="{{ employee.employee_id }}"><p>Удалить?<a href="{% url 'jobs:employee_delete' employee.employee_id %}">Да</a> <a onClick="activeModal({{employee.employee_id}})">Нет</a></p></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container py-2">
+    <div class="row g-2">
+        <div class="col-4">
+            <form class="form-inline">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input class="form-control form-control-sm ml-3 w-75" type="search" name="q_position" placeholder="Название должности"
+                aria-label="Search">
+            </form>
+        </div>
+
+        <div class="col-9">
+            <table class="table table-bordered">
+                <caption>Список долностей</caption>
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Название должности</th>
+                        <th scope="col">Категория</th>
+                        {% if request.user.is_staff %}
+                            <th class="border border-white" scope="col"></th>
+                            <th class="border border-white" scope="col"></th>
+                            <th class="border border-white" scope="col"></th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for position in positions_list %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ position.name }}</td>
+                        <td>{{ position.category }}</td>
+                        {% if request.user.is_staff %}
+                            <td class="border border-white"><a href="{% url 'jobs:position_update' position.id %}">Изменить</a></td>
+                            <td class="border border-white"><a onClick="activeModal({{position.id|add:'10000000' }})" id="{{ position.id|add:'10000000' }}delBut">Удалить</a></td>
+                            <td class="hide border border-white table-danger" id="{{ position.id|add:'10000000' }}"><p>Удалить?<a href="{% url 'jobs:position_delete' position.id %}">Да</a> <a onClick="activeModal({{position.id|add:'10000000' }})">Нет</a></p></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
 {% endblock %}

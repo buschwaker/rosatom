@@ -7,7 +7,7 @@ from django.core.validators import ValidationError
 class Position(models.Model):
     name = models.CharField(
         verbose_name='Должность', db_index=True, unique=True,
-        max_length=50, help_text='Введите название должности'
+        max_length=20, help_text='Введите название должности'
     )
 
     specialist = 'Специалист'
@@ -25,12 +25,19 @@ class Position(models.Model):
         max_length=10, help_text='Выберите категорию'
     )
 
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        for field_name in ['name', ]:
+            val = getattr(self, field_name, False)
+            if val:
+                setattr(self, field_name, val.capitalize())
+        super(Position, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name_plural = "Должности"
         verbose_name = "Должность"
-
-    def __str__(self):
-        return self.name
 
 
 class Employee(models.Model):
@@ -62,23 +69,11 @@ class Employee(models.Model):
         verbose_name='Дата рождения',
         help_text='Введите дату рождения',
     )
-    # age = models.IntegerField(
-    #     verbose_name='Возраст', help_text='Введите возраст',
-    #     validators=[
-    #       MaxValueValidator(150, 'Слишком большой возраст!'),
-    #       MinValueValidator(14, 'Слишком маленький возраст'), ]
-    # )
     position = models.ForeignKey(
         Position, on_delete=models.SET_NULL, related_name='employees',
         blank=True, null=True, verbose_name='Должность',
         help_text='Выберите должность',
     )
-
-    class Meta:
-        verbose_name_plural = "Сотрудники"
-        verbose_name = "Сотрудник"
-        unique_together = (("first_name", "last_name", "patronymic", "dob", ),)
-        ordering = ['last_name', 'first_name', 'patronymic', ]
 
     def __str__(self):
         return self.first_name + self.last_name
@@ -90,3 +85,16 @@ class Employee(models.Model):
             raise ValidationError({'dob': ["Сотруднику слишком много лет!", ]})
         elif age < 14:
             raise ValidationError({'dob': ["Сотруднику слишком мало лет!", ]})
+
+    def save(self, *args, **kwargs):
+        for field_name in ['first_name', 'last_name', 'patronymic', ]:
+            val = getattr(self, field_name, False)
+            if val:
+                setattr(self, field_name, val.capitalize())
+        super(Employee, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = "Сотрудники"
+        verbose_name = "Сотрудник"
+        unique_together = (("first_name", "last_name", "patronymic", "dob", ),)
+        ordering = ['last_name', 'first_name', 'patronymic', ]
