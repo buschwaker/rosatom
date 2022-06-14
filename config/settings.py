@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!7+ze31+*17+788g0&yuxv-fs$z@3dxj9t6r16hl(jjj50+68#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['rosatomtask.herokuapp.com']
