@@ -5,6 +5,7 @@ from django.core.validators import ValidationError
 
 
 class Position(models.Model):
+    """Модель Должность"""
     name = models.CharField(
         verbose_name='Должность', db_index=True, unique=True,
         max_length=20, help_text='Введите название должности'
@@ -29,6 +30,10 @@ class Position(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        """
+        Изменение строки поля Должность. Перевод первой буквы строки в
+        верхний регистр, остальные в нижний
+        """
         for field_name in ['name', ]:
             val = getattr(self, field_name, False)
             if val:
@@ -41,6 +46,7 @@ class Position(models.Model):
 
 
 class Employee(models.Model):
+    """Модель Сотрудник"""
     first_name = models.CharField(
         verbose_name='Имя', max_length=30, help_text='Введите имя'
     )
@@ -79,6 +85,10 @@ class Employee(models.Model):
         return self.first_name + self.last_name
 
     def clean_fields(self, exclude=None):
+        """
+        Проверка значения поля Дата Рождения. Полное число лет
+        не должно превышать 150 и не должно быть меньше 14.
+        """
         date_now = dt.now().date()
         age = int((date_now - self.dob).days / 365.25)
         if age > 150:
@@ -87,6 +97,10 @@ class Employee(models.Model):
             raise ValidationError({'dob': ["Сотруднику слишком мало лет!", ]})
 
     def save(self, *args, **kwargs):
+        """
+        Изменение строк полей ФИО. Перевод первой буквы строки в
+        верхний регистр, остальные в нижний
+        """
         for field_name in ['first_name', 'last_name', 'patronymic', ]:
             val = getattr(self, field_name, False)
             if val:

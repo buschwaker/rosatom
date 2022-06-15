@@ -5,6 +5,7 @@ User = get_user_model()
 
 
 class SignUpForm(UserCreationForm):
+    """Форма регистрации связанная с моделью User"""
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('first_name', 'last_name', 'username', 'email')

@@ -6,6 +6,7 @@ from .models import Position, Employee
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
+    """Класс, определяющий вид Position в административной панели"""
     list_display = (
         'name',
         'category',
@@ -18,6 +19,7 @@ class PositionAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
+    """Класс, определяющий вид Employee в административной панели"""
     list_display = (
         'last_name',
         'first_name',

@@ -7,6 +7,7 @@ from .forms import SignUpForm
 
 
 def my_login(*args, **kwargs):
+    """Обеспечивает аутентификацию пользователей"""
     extra_context = {
         'urls': [
             '/',
@@ -17,6 +18,9 @@ def my_login(*args, **kwargs):
 
 @user_passes_test(lambda u: u.is_staff)
 def signup_view(request):
+    """Обеспечивает регистрацию пользователей,
+    доступно пользователям с административными правами
+    """
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -26,4 +30,6 @@ def signup_view(request):
             messages.error(request, 'Correct the errors below')
     else:
         form = SignUpForm()
-    return render(request, 'users/login.html', {'form': form, 'register': 'True'})
+    return render(
+        request, 'users/login.html', {'form': form, 'register': 'True'}
+    )

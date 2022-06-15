@@ -1,4 +1,3 @@
-from datetime import datetime as dt
 from datetime import date, timedelta
 from django import forms
 
@@ -7,6 +6,7 @@ from .widgets import DateSelectorWidget
 
 
 class PositionForm(forms.ModelForm):
+    """Форма, связанная с моделью Position"""
 
     class Meta:
         model = Position
@@ -14,6 +14,7 @@ class PositionForm(forms.ModelForm):
 
 
 class EmployeeForm(forms.ModelForm):
+    """Форма, связанная с моделью Employee"""
     dob = forms.DateField(
         widget=DateSelectorWidget,
         label='Дата рождения',

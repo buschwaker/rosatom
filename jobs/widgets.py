@@ -4,6 +4,10 @@ from django import forms
 
 
 class DateSelectorWidget(forms.MultiWidget):
+    """
+    Виджет, наследующийся от MultiWidget, выводящий день,
+    месяц, год в разные поля выбора
+    """
     def __init__(self, attrs=None):
         days = [(day, day) for day in range(1, 32)]
         months = [(month, month) for month in range(1, 13)]
@@ -26,4 +30,5 @@ class DateSelectorWidget(forms.MultiWidget):
 
     def value_from_datadict(self, data, files, name):
         day, month, year = super().value_from_datadict(data, files, name)
+        # DateField ожидает строку, которая может быть записана как дата
         return '{}-{}-{}'.format(year, month, day)

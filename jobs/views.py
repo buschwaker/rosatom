@@ -7,6 +7,10 @@ from .forms import PositionForm, EmployeeForm
 
 @login_required
 def index(request):
+    """
+    Обрабатывает запрос к главной странице сайта выводит список должностей
+    и сотрудников, доступно аутентифицированному пользователю
+    """
     search_position = request.GET.get('q_position')
     search_employee = request.GET.get('q_employee')
     print(search_employee)
@@ -58,6 +62,10 @@ def index(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def create_employee(request):
+    """
+    Функция создает пользователя,
+    доступно пользователю с административными правами
+    """
     form = EmployeeForm()
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
@@ -70,6 +78,10 @@ def create_employee(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def employee_edit(request, employee_id):
+    """
+    Функция изменяет данные пользователя,
+    доступно пользователю с административными правами
+    """
     is_edit = True
     employee = get_object_or_404(Employee, id=employee_id)
     form = EmployeeForm(
@@ -85,6 +97,10 @@ def employee_edit(request, employee_id):
 
 @user_passes_test(lambda u: u.is_staff)
 def employee_delete(request, employee_id):
+    """
+    Функция удаляет данные пользователя,
+    доступно пользователю с административными правами
+    """
     employee = get_object_or_404(Employee, id=employee_id)
     employee.delete()
     return redirect('jobs:index')
@@ -92,6 +108,10 @@ def employee_delete(request, employee_id):
 
 @user_passes_test(lambda u: u.is_staff)
 def position_create(request):
+    """
+    Функция создает должность,
+    доступно пользователю с административными правами
+    """
     form = PositionForm()
     if request.method == 'POST':
         form = PositionForm(request.POST)
@@ -106,6 +126,10 @@ def position_create(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def position_edit(request, position_id):
+    """
+    Функция изменяет данные о должности,
+    доступно пользователю с административными правами
+    """
     is_edit = True
     position = get_object_or_404(Position, id=position_id)
     form = PositionForm(
@@ -121,6 +145,10 @@ def position_edit(request, position_id):
 
 @user_passes_test(lambda u: u.is_staff)
 def position_delete(request, position_id):
+    """
+    Функция удаляет данные о должности,
+    доступно пользователю с административными правами
+    """
     position = get_object_or_404(Position, id=position_id)
     position.delete()
     return redirect('jobs:index')
