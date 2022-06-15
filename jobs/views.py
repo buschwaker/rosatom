@@ -13,7 +13,6 @@ def index(request):
     """
     search_position = request.GET.get('q_position')
     search_employee = request.GET.get('q_employee')
-    print(search_employee)
     if not search_employee or search_employee == '':
         employee_list = Employee.objects.raw(
             'SELECT "jobs_employee"."id" as "employee_id", "jobs_employee".'
